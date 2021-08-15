@@ -4,4 +4,7 @@
 
     <!-- TODO: Add necessary string values -->
 
+    <!-- LaunchFragment strings -->
+    <string name="upcoming_elections">Upcoming elections</string>
+    <string name="find_my_representatives">Find my representatives</string>
 </resources>
