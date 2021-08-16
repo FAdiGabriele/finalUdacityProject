@@ -2,12 +2,15 @@
 <resources>
     <dimen name="default_padding">8dp</dimen>
 
-    <!-- margins values -->
+    <!-- Margins values -->
     <dimen name="small_margin_value">8dp</dimen>
     <dimen name="regular_margin_value">16dp</dimen>
     <dimen name="medium_margin_value">24dp</dimen>
     <dimen name="large_margin_value">36dp</dimen>
     <dimen name="extra_large_margin_value">48dp</dimen>
+
+    <!-- Titles values -->
+    <dimen name="big_title_text_size">24sp</dimen>
 
     <!-- TODO: Add necessary dimension values -->
 

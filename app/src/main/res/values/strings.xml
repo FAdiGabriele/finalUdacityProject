@@ -7,4 +7,9 @@
     <!-- LaunchFragment strings -->
     <string name="upcoming_elections">Upcoming elections</string>
     <string name="find_my_representatives">Find my representatives</string>
+
+    <!-- RepresentativeFragment  strings -->
+    <string name="representative_search">Representative Search</string>
+    <string name="my_representatives">My Representatives</string>
+    <string name="use_my_location">Use my loation</string>
 </resources>

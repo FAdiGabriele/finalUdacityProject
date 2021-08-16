@@ -11,6 +11,7 @@
 
     <!-- TODO: Add necessary styles -->
 
+    <!-- Button styles -->
     <style name="ClassicButton">
         <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:textColor">@color/white</item>
@@ -20,6 +21,16 @@
         <item name="android:layout_marginStart">@dimen/regular_margin_value</item>
         <item name="android:layout_marginEnd">@dimen/regular_margin_value</item>
         <item name="android:layout_marginBottom">@dimen/regular_margin_value</item>
+    </style>
+
+    <style name="TopClassicButton" parent="ClassicButton">
+        <item name="android:layout_marginTop">@dimen/small_margin_value</item>
+    </style>
+
+    <!-- Title styles -->
+    <style name="BigTitle">
+        <item name="android:textSize">@dimen/big_title_text_size</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
