@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -9,14 +10,22 @@ import com.example.android.politicalpreparedness.network.models.Election
 @Dao
 interface ElectionDao {
 
-    //TODO: Add insert query
+    @Insert()
+    suspend fun addElection(election: Election)
 
-    //TODO: Add select all election query
+    @Update
+    suspend fun updateElection(election: Election)
 
-    //TODO: Add select single election query
+    @Query("SELECT * FROM election_table")
+    suspend fun getElections(): LiveData<List<Election>>
 
-    //TODO: Add delete query
+    @Query("SELECT * FROM election_table WHERE id = :id")
+    suspend fun getElectionById(id: Int): LiveData<Election>
 
-    //TODO: Add clear query
+    @Query("DELETE FROM election_table WHERE id = :id")
+    suspend fun deleteElection(id: Int)
+
+    @Query("DELETE FROM election_table")
+    suspend fun deleteAllElections()
 
 }
