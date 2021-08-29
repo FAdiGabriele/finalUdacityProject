@@ -5,6 +5,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'androidx.navigation.safeargs'
 
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def googleMapApiKey = properties.getProperty('MAPS_API_KEY')
+
 android {
     compileSdkVersion 30
     buildFeatures {
@@ -16,6 +21,9 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        //This is the way to communicate a value between local.properties and Manifest
+        manifestPlaceholders = [ myApiMaps: googleMapApiKey ]
     }
     buildTypes {
         release {
@@ -68,10 +76,10 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$version_moshi"
 
     // Glide
-    //TODO: Add Glide Implementation
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 
     //Room
-    implementation "androidx.room:room-runtime:$version_room"
+    implementation "androidx.room:room-ktx:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
 
     // Location
