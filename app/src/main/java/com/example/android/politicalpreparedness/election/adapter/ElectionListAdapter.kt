@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.politicalpreparedness.databinding.SingleElectionElementeBinding
+import com.example.android.politicalpreparedness.databinding.SingleElectionElementBinding
 import com.example.android.politicalpreparedness.network.models.Election
 
 class ElectionListAdapter(private val clickListener: ElectionListener): ListAdapter<Election, ElectionViewHolder>(ElectionDiffCallback()) {
@@ -22,7 +22,7 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
 }
 
 
-class ElectionViewHolder private constructor(private val binding: SingleElectionElementeBinding) : RecyclerView.ViewHolder(binding.root) {
+class ElectionViewHolder private constructor(private val binding: SingleElectionElementBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(clickListener: ElectionListener, item: Election) {
         //TODO fai l'xml
         binding.election = item
@@ -32,7 +32,7 @@ class ElectionViewHolder private constructor(private val binding: SingleElection
 
     companion object {
         fun from(parent: ViewGroup): ElectionViewHolder {
-            val binding = SingleElectionElementeBinding
+            val binding = SingleElectionElementBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             return ElectionViewHolder(binding)
         }
