@@ -9,8 +9,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- TODO: Add necessary styles -->
-
     <!-- Button styles -->
     <style name="ClassicButton">
         <item name="android:backgroundTint">@color/colorPrimary</item>
@@ -27,10 +25,22 @@
         <item name="android:layout_marginTop">@dimen/small_margin_value</item>
     </style>
 
-    <!-- Title styles -->
-    <style name="BigTitle">
+    <!-- TextView styles -->
+    <style name="TextViewBigTitle">
         <item name="android:textSize">@dimen/big_title_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="TextViewTitle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewLittle">
+        <item name="android:textColor">@color/gray50</item>
+        <item name="android:textSize">@dimen/little_text_size</item>
+    </style>
+
+
+    <!-- TODO: Add necessary styles -->
 
 </resources>

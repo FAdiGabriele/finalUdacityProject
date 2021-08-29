@@ -11,6 +11,10 @@
 
     <!-- Titles values -->
     <dimen name="big_title_text_size">24sp</dimen>
+    <dimen name="little_text_size">12sp</dimen>
+
+    <!-- Icon values -->
+    <dimen name="icon_width">36dp</dimen>
 
     <!-- TODO: Add necessary dimension values -->
 
