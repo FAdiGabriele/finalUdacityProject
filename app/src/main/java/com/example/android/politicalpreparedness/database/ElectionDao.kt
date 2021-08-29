@@ -17,10 +17,10 @@ interface ElectionDao {
     suspend fun updateElection(election: Election)
 
     @Query("SELECT * FROM election_table")
-    suspend fun getElections(): LiveData<List<Election>>
+    fun getElections(): LiveData<List<Election>>
 
     @Query("SELECT * FROM election_table WHERE id = :id")
-    suspend fun getElectionById(id: Int): LiveData<Election>
+    fun getElectionById(id: Int): LiveData<Election>
 
     @Query("DELETE FROM election_table WHERE id = :id")
     suspend fun deleteElection(id: Int)
