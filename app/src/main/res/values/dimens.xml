@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_padding">8dp</dimen>
+    <dimen name="constraint_match_parent">0dp</dimen>
 
     <!-- Margins values -->
+    <dimen name="tiny_margin_value">4dp</dimen>
     <dimen name="small_margin_value">8dp</dimen>
     <dimen name="regular_margin_value">16dp</dimen>
     <dimen name="medium_margin_value">24dp</dimen>

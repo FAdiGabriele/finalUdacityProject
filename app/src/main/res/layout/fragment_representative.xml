@@ -37,7 +37,7 @@
         <EditText
             android:id="@+id/address_line_2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/constraint_match_parent"
             android:autofillHints=""
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/city"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:inputType="textPostalAddress"
@@ -60,8 +60,8 @@
         <!-- TODO: Add visual styling and content -->
         <Spinner
             android:id="@+id/state"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/constraint_match_parent"
             android:autofillHints=""
             android:inputType="textPostalAddress"
             app:layout_constraintBottom_toBottomOf="@id/city"
@@ -73,7 +73,7 @@
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/zip"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:inputType="number"
@@ -115,12 +115,13 @@
         <TextView
             android:id="@+id/list_placeholder"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/constraint_match_parent"
             android:gravity="center"
             android:textAlignment="center"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/representative_title"
+            motion:layout_editor_absoluteX="16dp"
             motion:visibilityMode="ignore" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
