@@ -1,10 +1,19 @@
 package com.example.android.politicalpreparedness.network
 
+import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
+import com.example.android.politicalpreparedness.network.models.Division
+import com.example.android.politicalpreparedness.network.models.ElectionResponse
+import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 private const val BASE_URL = "https://www.googleapis.com/civicinfo/v2/"
 
@@ -26,10 +35,19 @@ private val retrofit = Retrofit.Builder()
 
 interface CivicsApiService {
     //TODO: Add elections API Call
+    @GET("elections")
+    fun getElections(): Call<ElectionResponse>
 
     //TODO: Add voterinfo API Call
+    @GET("voterinfo")
+    fun getVoterInfoByAddress(@Query(value = "address") address: String): Call<VoterInfoResponse>
 
-    //TODO: Add representatives API Call
+    //TODO: Add representatives API Call GET https://www.googleapis.com/civicinfo/v2/representatives/ocdId
+    @GET("representatives/{ocdId}")
+    fun getRepresentativesByDivision(@Path("ocdId") divisionID: String): Call<RepresentativeResponse>
+
+    @GET("representatives")
+    fun getRepresentativesByAddress(@Query(value = "address") address: String): Call<RepresentativeResponse>
 }
 
 object CivicsApi {
