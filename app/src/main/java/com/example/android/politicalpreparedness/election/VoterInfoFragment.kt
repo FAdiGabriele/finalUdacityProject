@@ -3,9 +3,17 @@ package com.example.android.politicalpreparedness.election
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.application.PoliticalPreparedness
+import com.example.android.politicalpreparedness.dagger.ViewModelFactory
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import javax.inject.Inject
 
 class VoterInfoFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var voterInfoViewModel: VoterInfoViewModel
 
     lateinit var binding: FragmentVoterInfoBinding
 
@@ -13,9 +21,12 @@ class VoterInfoFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        PoliticalPreparedness.appComponent.inject(this)
+
         binding = FragmentVoterInfoBinding.inflate(inflater, container, false)
 
         //TODO: Add ViewModel values and create ViewModel
+        voterInfoViewModel = ViewModelProvider(this, viewModelFactory)[VoterInfoViewModel::class.java]
 
         //TODO: Add binding values
 

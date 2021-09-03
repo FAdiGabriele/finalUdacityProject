@@ -26,6 +26,10 @@ android {
         manifestPlaceholders = [ myApiMaps: googleMapApiKey ]
     }
     buildTypes {
+        //It allow to use the MAPS_API_KEY also in the code
+        debug{
+            buildConfigField("String", "MAPS_API_KEY", "\"" + googleMapApiKey + "\"")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -84,4 +88,10 @@ dependencies {
 
     // Location
     implementation "com.google.android.gms:play-services-location:$version_play_services_location"
+
+    //Dagger
+    implementation "com.google.dagger:dagger-android:2.35.1"
+    implementation "com.google.dagger:dagger-android-support:2.27"
+    kapt "com.google.dagger:dagger-compiler:2.27"
+    kapt "com.google.dagger:dagger-android-processor:2.27"
 }
