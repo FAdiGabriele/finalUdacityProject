@@ -1,34 +1,67 @@
 package com.example.android.politicalpreparedness.representative
 
-import android.content.Context
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
-import android.view.*
-import android.view.inputmethod.InputMethodManager
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.politicalpreparedness.application.PoliticalPreparedness
+import com.example.android.politicalpreparedness.dagger.ViewModelFactory
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
-import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListener
+import com.example.android.politicalpreparedness.utils.Constants.TAG
 import com.example.android.politicalpreparedness.utils.handleRequestPermission
-import java.util.Locale
+import javax.inject.Inject
 
-class DetailFragment : Fragment() {
+class RepresentativeFragment : Fragment() {
 
-    //TODO: Declare ViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var representativeViewModel: RepresentativeViewModel
 
     lateinit var binding : FragmentRepresentativeBinding
+    lateinit var adapter: RepresentativeListAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
+
+        Log.e(TAG, "onRepresentativeFragment")
+
+        PoliticalPreparedness.appComponent.inject(this)
 
         binding =  FragmentRepresentativeBinding.inflate(inflater, container, false)
 
-        //TODO: Define and assign Representative adapter
+        representativeViewModel =  ViewModelProvider(this, viewModelFactory)[RepresentativeViewModel::class.java]
 
-        //TODO: Populate Representative adapter
+        adapter = RepresentativeListAdapter(RepresentativeListener{})
 
-        //TODO: Establish button listeners for field and location search
+        binding.buttonSearch.setOnClickListener {
+            val searchedAddress =  representativeViewModel.getAddressFromFields(
+                binding.addressLine1.text.toString(),
+                binding.addressLine2.text.toString(),
+                binding.city.text.toString(),
+                binding.state.selectedItem.toString(),
+                binding.zip.text.toString()
+            )
+
+            representativeViewModel.fetchRepresentativeByAddress(
+                searchedAddress
+            )
+        }
+
+        binding.buttonLocation.setOnClickListener {
+            representativeViewModel.getAddressFromGeoLocation()
+        }
+
+        binding.representativeList.adapter = adapter
+        binding.representativeList.layoutManager = LinearLayoutManager(requireContext())
+        setObservers()
 
         return binding.root
 
@@ -39,6 +72,12 @@ class DetailFragment : Fragment() {
 
         //TODO settalo bene
         handleRequestPermission()
+    }
+
+    fun setObservers(){
+        representativeViewModel.upcomingElections.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
     }
 
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.election.ElectionsViewModel
 import com.example.android.politicalpreparedness.election.VoterInfoViewModel
 import com.example.android.politicalpreparedness.repository.ElectionsRepository
+import com.example.android.politicalpreparedness.representative.RepresentativeViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -22,9 +23,17 @@ class ViewModelModule(
 
     @Provides
     @IntoMap
+    @ViewModelKey(RepresentativeViewModel::class)
+    fun representativeViewModel(): ViewModel  =
+        RepresentativeViewModel(electionsRepository)
+
+    @Provides
+    @IntoMap
     @ViewModelKey(VoterInfoViewModel::class)
     fun voterInfoViewModel(): ViewModel  =
         VoterInfoViewModel(electionsRepository)
+
+
 
     @Provides
     fun provideViewModelFactory(map: Map<Class<out ViewModel>, @JvmSuppressWildcards ViewModel>): ViewModelProvider.Factory {

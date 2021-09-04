@@ -17,6 +17,7 @@
 
     <!-- Icon values -->
     <dimen name="icon_width">36dp</dimen>
+    <dimen name="photo_width">64dp</dimen>
 
     <!-- TODO: Add necessary dimension values -->
 

@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.application.PoliticalPreparedness
 import com.example.android.politicalpreparedness.dagger.ViewModelFactory
-import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
-import com.example.android.politicalpreparedness.repository.ElectionsRepository
 import javax.inject.Inject
 
 class ElectionsFragment: Fragment() {
@@ -34,7 +32,6 @@ class ElectionsFragment: Fragment() {
         //TODO: Add ViewModel values and create ViewModel
         electionViewModel = ViewModelProvider(this, viewModelFactory)[ElectionsViewModel::class.java]
 
-        electionViewModel.papope()
         //TODO: Add binding values
 
         //TODO: Link elections to voter info

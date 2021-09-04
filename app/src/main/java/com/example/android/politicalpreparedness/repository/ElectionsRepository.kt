@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -7,8 +8,11 @@ import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
 import com.example.android.politicalpreparedness.network.models.*
+import com.example.android.politicalpreparedness.representative.model.Representative
+import com.example.android.politicalpreparedness.utils.Constants.NETWORK_TAG
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.await
 
 class ElectionsRepository (private val database: ElectionDatabase ) {
 
@@ -22,11 +26,6 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
     private var _voterInfoResponseApiList = MutableLiveData<VoterInfoResponse>()
     val voterInfoResponseApiList : LiveData<VoterInfoResponse>
         get() =_voterInfoResponseApiList
-
-    private var _representativeResponseApiList = MutableLiveData<RepresentativeResponse>()
-    val representativeResponseApiList : LiveData<RepresentativeResponse>
-        get() =_representativeResponseApiList
-
 
 
     fun getElectionsFromApi(){
@@ -67,41 +66,17 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
 
     }
 
-    fun getRepresentativeFromApiByAddress(address: Address){
+    suspend fun getRepresentativeFromApiByAddress(address: Address): List<Representative>{
         val call = CivicsApi.retrofitService.getRepresentativesByAddress(address.toFormattedString())
 
-        call.enqueue(object : retrofit2.Callback<RepresentativeResponse> {
-            override fun onResponse(
-                call: Call<RepresentativeResponse>,
-                response: Response<RepresentativeResponse>
-            ) {
-                _representativeResponseApiList. value = response.body()
-            }
-
-            override fun onFailure(call: Call<RepresentativeResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-
-        })
+        val (offices, officials) = call.await()
+        return offices.flatMap { office -> office.getRepresentatives(officials) }
     }
 
-    fun getRepresentativeFromApiByDivision(division: Division){
+    suspend fun getRepresentativeFromApiByDivision(division: Division): List<Representative> {
         val call = CivicsApi.retrofitService.getRepresentativesByDivision(ElectionAdapter().divisionToJson(division))
 
-        call.enqueue(object : retrofit2.Callback<RepresentativeResponse> {
-            override fun onResponse(
-                call: Call<RepresentativeResponse>,
-                response: Response<RepresentativeResponse>
-            ) {
-                _representativeResponseApiList.value = response.body()
-            }
-
-            override fun onFailure(call: Call<RepresentativeResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-
-        })
+        val (offices, officials) = call.await()
+        return offices.flatMap { office -> office.getRepresentatives(officials) }
     }
 }

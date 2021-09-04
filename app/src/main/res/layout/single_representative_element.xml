@@ -15,16 +15,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(representative)}">
 
         <ImageView
             android:id="@+id/representativePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/photo_width"
+            android:layout_height="@dimen/photo_width"
             android:layout_marginStart="@dimen/tiny_margin_value"
             android:layout_marginTop="@dimen/tiny_margin_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:profileImage="@{representative.official.photoUrl}"
             app:srcCompat="@drawable/ic_profile" />
 
         <TextView
@@ -35,7 +37,7 @@
             android:layout_marginStart="@dimen/small_margin_value"
             android:layout_marginTop="@dimen/tiny_margin_value"
             android:layout_marginEnd="@dimen/tiny_margin_value"
-            android:text ="@{representative.office.name}"
+            android:text="@{representative.office.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/representativePhoto"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin_value"
             android:layout_marginTop="@dimen/tiny_margin_value"
+            android:text="@{representative.official.name}"
             android:textColor="@color/gray50"
-            android:text ="@{representative.official.name}"
             app:layout_constraintStart_toEndOf="@+id/representativePhoto"
             app:layout_constraintTop_toBottomOf="@+id/representative_role"
             tools:text="Name Of Politic" />
@@ -60,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin_value"
             android:layout_marginTop="@dimen/tiny_margin_value"
-            android:text ="@{representative.official.party}"
+            android:text="@{representative.official.party}"
             app:layout_constraintStart_toEndOf="@+id/representativePhoto"
             app:layout_constraintTop_toBottomOf="@+id/representative_name"
             tools:text="Party Of Politic" />
