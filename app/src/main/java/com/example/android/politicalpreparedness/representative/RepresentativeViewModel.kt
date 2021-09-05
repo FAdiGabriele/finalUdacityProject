@@ -1,21 +1,29 @@
 package com.example.android.politicalpreparedness.representative
 
+import android.location.Geocoder
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.network.models.Address
-import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
 import com.example.android.politicalpreparedness.repository.ElectionsRepository
 import com.example.android.politicalpreparedness.representative.model.Representative
 import com.example.android.politicalpreparedness.utils.Constants
 import com.example.android.politicalpreparedness.utils.Constants.NETWORK_TAG
+import com.example.android.politicalpreparedness.utils.geoCodeLocation
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RepresentativeViewModel @Inject constructor(val repository: ElectionsRepository) : ViewModel() {
 
+
     private val _upcomingElections = MutableLiveData<List<Representative>>()
     val upcomingElections : LiveData<List<Representative>>
         get() = _upcomingElections
+    val locationRequestedAndApproved = MutableLiveData<Boolean>()
+    val currentPosition = MutableLiveData<LatLng>()
 
     init{
         fetchRepresentativeByAddress(
@@ -26,9 +34,9 @@ class RepresentativeViewModel @Inject constructor(val repository: ElectionsRepos
                 Constants.DEFAULT_ADDRESS_STATE,
                 Constants.DEFAULT_ADDRESS_ZIP)
         )
+
     }
 
-    //TODO: Create function to fetch representatives from API from a provided address
     fun fetchRepresentativeByAddress(address: Address){
         viewModelScope.launch {
             Log.e(NETWORK_TAG, "fetchRepresentativeByAddress started")
@@ -39,9 +47,8 @@ class RepresentativeViewModel @Inject constructor(val repository: ElectionsRepos
 
     }
 
-    //TODO: Create function get address from geo location
-    fun getAddressFromGeoLocation(){
-
+    fun getAddressFromGeoLocation(geoCoder: Geocoder, currentPositionCoordinates : LatLng): Address{
+        return geoCodeLocation(geoCoder, currentPositionCoordinates)
     }
 
 

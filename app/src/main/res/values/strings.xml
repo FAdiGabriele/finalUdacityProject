@@ -11,7 +11,7 @@
     <!-- RepresentativeFragment  strings -->
     <string name="representative_search">Representative Search</string>
     <string name="my_representatives">My Representatives</string>
-    <string name="use_my_location">Use my loation</string>
+    <string name="use_my_location">Use my location</string>
 
     <!-- state of USA -->
     <string-array name="state_of_usa">
