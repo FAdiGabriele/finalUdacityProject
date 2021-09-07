@@ -5,13 +5,17 @@
     <!-- TODO: Add necessary string values -->
 
     <!-- LaunchFragment strings -->
-    <string name="upcoming_elections">Upcoming elections</string>
+    <string name="upcoming_elections_button">Upcoming elections</string>
     <string name="find_my_representatives">Find my representatives</string>
 
     <!-- RepresentativeFragment  strings -->
     <string name="representative_search">Representative Search</string>
     <string name="my_representatives">My Representatives</string>
     <string name="use_my_location">Use my location</string>
+
+    <!-- Elections Fragment -->
+    <string name="upcoming_elections_title">Upcoming Elections</string>
+    <string name="saved_election">Saved Elections</string>
 
     <!-- state of USA -->
     <string-array name="state_of_usa">

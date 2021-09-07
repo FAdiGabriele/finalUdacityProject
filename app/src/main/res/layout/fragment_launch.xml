@@ -23,7 +23,7 @@
             style="@style/BottomClassicButton"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/upcoming_elections"
+            android:text="@string/upcoming_elections_button"
             app:layout_constraintBottom_toTopOf="@+id/representativeButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

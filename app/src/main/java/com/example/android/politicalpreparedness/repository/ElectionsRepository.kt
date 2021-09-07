@@ -17,18 +17,19 @@ import retrofit2.await
 class ElectionsRepository (private val database: ElectionDatabase ) {
 
     val electionsLocalList: LiveData<List<Election>> = Transformations.map(
-        database.electionDao.getElections()) { it }
+        database.electionDao.getElections()
+    ) { it }
 
     private var _electionsApiList = MutableLiveData<List<Election>>()
-    val electionsApiList : LiveData<List<Election>>
-        get() =_electionsApiList
+    val electionsApiList: LiveData<List<Election>>
+        get() = _electionsApiList
 
     private var _voterInfoResponseApiList = MutableLiveData<VoterInfoResponse>()
-    val voterInfoResponseApiList : LiveData<VoterInfoResponse>
-        get() =_voterInfoResponseApiList
+    val voterInfoResponseApiList: LiveData<VoterInfoResponse>
+        get() = _voterInfoResponseApiList
 
 
-    fun getElectionsFromApi(){
+    fun getElectionsFromApi() {
         val call = CivicsApi.retrofitService.getElections()
 
         call.enqueue(object : retrofit2.Callback<ElectionResponse> {
@@ -36,6 +37,7 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
                 call: Call<ElectionResponse>,
                 response: Response<ElectionResponse>
             ) {
+                Log.e(NETWORK_TAG, "getElectionsFromApi Response")
                 _electionsApiList.value = response.body()?.elections
             }
 
@@ -46,35 +48,25 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
         })
     }
 
-    fun getVoterInfoFromApi(address: Address){
+    suspend fun getVoterInfoFromApi(address: Address) {
         val call = CivicsApi.retrofitService.getVoterInfoByAddress(address.toFormattedString())
 
-        call.enqueue(object : retrofit2.Callback<VoterInfoResponse> {
-            override fun onResponse(
-                call: Call<VoterInfoResponse>,
-                response: Response<VoterInfoResponse>
-            ) {
-                _voterInfoResponseApiList.value = response.body()
-            }
-
-            override fun onFailure(call: Call<VoterInfoResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-
-        })
-
+        val some = call.await()
     }
 
-    suspend fun getRepresentativeFromApiByAddress(address: Address): List<Representative>{
-        val call = CivicsApi.retrofitService.getRepresentativesByAddress(address.toFormattedString())
+
+    suspend fun getRepresentativeFromApiByAddress(address: Address): List<Representative> {
+        val call =
+            CivicsApi.retrofitService.getRepresentativesByAddress(address.toFormattedString())
 
         val (offices, officials) = call.await()
         return offices.flatMap { office -> office.getRepresentatives(officials) }
     }
 
     suspend fun getRepresentativeFromApiByDivision(division: Division): List<Representative> {
-        val call = CivicsApi.retrofitService.getRepresentativesByDivision(ElectionAdapter().divisionToJson(division))
+        val call = CivicsApi.retrofitService.getRepresentativesByDivision(
+            ElectionAdapter().divisionToJson(division)
+        )
 
         val (offices, officials) = call.await()
         return offices.flatMap { office -> office.getRepresentatives(officials) }
