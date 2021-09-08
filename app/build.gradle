@@ -6,6 +6,7 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'androidx.navigation.safeargs'
 
 
+//Remember to put Maps Api Key in local.proprieties
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def googleMapApiKey = properties.getProperty('MAPS_API_KEY')
