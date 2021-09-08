@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Political Preparedness</string>
 
-    <!-- TODO: Add necessary string values -->
 
     <!-- LaunchFragment strings -->
     <string name="upcoming_elections_button">Upcoming elections</string>
@@ -16,6 +15,17 @@
     <!-- Elections Fragment -->
     <string name="upcoming_elections_title">Upcoming Elections</string>
     <string name="saved_election">Saved Elections</string>
+
+    <!-- VoterInfo Fragment -->
+    <string name="voting_locations">Voting Locations</string>
+    <string name="ballot_information">Ballot Information</string>
+    <string name="election_information">Election Information</string>
+    <string name="follow_election">FOLLOW ELECTION</string>
+    <string name="unfollow_election">UNFOLLOW ELECTION</string>
+
+    <!-- errors -->
+    <string name="application_error">Application error, please try later</string>
+    <string name="server_error">Server error, please try later</string>
 
     <!-- state of USA -->
     <string-array name="state_of_usa">

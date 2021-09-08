@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.await
 
-class ElectionsRepository (private val database: ElectionDatabase ) {
+class ElectionsRepository (val database: ElectionDatabase ) {
 
     val electionsLocalList: LiveData<List<Election>> = Transformations.map(
         database.electionDao.getElections()
@@ -29,6 +29,9 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
         get() = _voterInfoResponseApiList
 
 
+    val getMalformedVoterInfoResponse = MutableLiveData<Boolean>()
+
+    //region api method
     fun getElectionsFromApi() {
         val call = CivicsApi.retrofitService.getElections()
 
@@ -42,22 +45,40 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
             }
 
             override fun onFailure(call: Call<ElectionResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.e(NETWORK_TAG, "getElectionsFromApi Failure")
             }
 
         })
     }
 
-    suspend fun getVoterInfoFromApi(address: Address) {
-        val call = CivicsApi.retrofitService.getVoterInfoByAddress(address.toFormattedString())
+    fun getVoterInfoFromApi(address: Address, id : Int) {
+        val call = CivicsApi.retrofitService.getVoterInfoByAddress(address.toFormattedString(), id)
 
-        val some = call.await()
+        call.enqueue(object : retrofit2.Callback<VoterInfoResponse> {
+            override fun onResponse(
+                call: Call<VoterInfoResponse>,
+                response: Response<VoterInfoResponse>
+            ) {
+                Log.e(NETWORK_TAG, "getVoterInfoFromApi Response")
+                if(response.body()?.election == null){
+                    getMalformedVoterInfoResponse.value = true
+                }else {
+                    _voterInfoResponseApiList.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<VoterInfoResponse>, t: Throwable) {
+                Log.e(NETWORK_TAG, "getVoterInfoFromApi Failure")
+            }
+
+
+        })
+
     }
 
 
     suspend fun getRepresentativeFromApiByAddress(address: Address): List<Representative> {
-        val call =
-            CivicsApi.retrofitService.getRepresentativesByAddress(address.toFormattedString())
+        val call = CivicsApi.retrofitService.getRepresentativesByAddress(address.toFormattedString())
 
         val (offices, officials) = call.await()
         return offices.flatMap { office -> office.getRepresentatives(officials) }
@@ -71,4 +92,20 @@ class ElectionsRepository (private val database: ElectionDatabase ) {
         val (offices, officials) = call.await()
         return offices.flatMap { office -> office.getRepresentatives(officials) }
     }
+
+    //endregion
+
+    //region local DB method
+    suspend fun getElectionById(id : Int) : Election? {
+      return database.electionDao.getElectionById(id)
+    }
+
+    suspend fun removeElection(id : Int){
+      database.electionDao.deleteElection(id)
+    }
+
+    suspend fun addElection(election : Election){
+        database.electionDao.addElection(election)
+    }
+    //endregion
 }

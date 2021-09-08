@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,19 +38,20 @@ class ElectionsFragment: Fragment() {
 
         electionViewModel = ViewModelProvider(this, viewModelFactory)[ElectionsViewModel::class.java]
 
-        //TODO: Add binding values
 
-        //TODO: Link elections to voter info
-
-        //TODO: Initiate recycler adapters
         localAdapter = ElectionListAdapter(ElectionListener {
-            findNavController().navigate(R.id.action_electionsFragment_to_voterInfoFragment)
+            val args = Bundle()
+            args.putInt("arg_election_id", it.id)
+            args.putParcelable("arg_division", it.division)
+            findNavController().navigate(R.id.action_electionsFragment_to_voterInfoFragment, args)
         })
         apiAdapter = ElectionListAdapter(ElectionListener {
-            findNavController().navigate(R.id.action_electionsFragment_to_voterInfoFragment)
+            val args = Bundle()
+            args.putInt("arg_election_id", it.id)
+            args.putParcelable("arg_division", it.division)
+            findNavController().navigate(R.id.action_electionsFragment_to_voterInfoFragment, args)
         })
 
-        //TODO: Populate recycler adapters
         setObservers()
 
         binding.apiRecyclerview.adapter = apiAdapter
@@ -62,7 +64,7 @@ class ElectionsFragment: Fragment() {
 
     }
 
-    fun setObservers(){
+    private fun setObservers(){
         electionViewModel.savedElections.observe(viewLifecycleOwner) {
             localAdapter.submitList(it)
         }
@@ -71,6 +73,5 @@ class ElectionsFragment: Fragment() {
             apiAdapter.submitList(it)
         }
     }
-    //TODO: Refresh adapters when fragment loads
 
 }
